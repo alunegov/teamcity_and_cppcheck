@@ -35,10 +35,10 @@ def handle_output_line(line):
         line = line.strip('\n')
         m = re.search("^(##teamcity[^']*\s+description=')(.*)('[^']*)$", line)
         if m is None:
-            print line
+            print(line)
         else:
             escaped = re.sub("(['|\[\]])", "|\\1", m.group(2))
-            print m.group(1) + escaped + m.group(3)
+            print(m.group(1) + escaped + m.group(3))
         return True
     else:
         return False
@@ -81,7 +81,7 @@ def main():
     if args.ot == "tc":
         process = subprocess.Popen(get_cppcheck_path() + arguments, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         while True:
-            more = handle_output_line(process.stdout.readline())
+            more = handle_output_line(process.stdout.readline().decode())
             if not more:
                 break
         return process.returncode
