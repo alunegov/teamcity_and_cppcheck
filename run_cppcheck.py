@@ -48,10 +48,8 @@ def main():
     parser.add_argument("--xp", type=file, help="Path of file with directories or files to exclude from analysis", default="exclude_paths.txt")
     parser.add_argument("--xdef", type=file, help="Path of file with definitions to exclude", default="exclude_defines.txt")
     parser.add_argument("--s", type=str, help="Path of file with warnings to suppress", default="suppressions.txt")
-    parser.add_argument("--cc", dest="cc", help="Check the configuration of cppcheck", action="store_true")
-    parser.add_argument("--no-cc", dest="cc", help="Don't heck the configuration of cppcheck", action="store_false")
-    parser.set_defaults(cc=False)
     parser.add_argument("--ot", type=str, help="The output template", default=None)
+    parser.add_argument("--ext", type=str, help="Direct cppcheck arguments", default=None)
 
     # get all data from command line
     args = parser.parse_args()
@@ -65,14 +63,14 @@ def main():
             args.ot = "vs"
 
     arguments = " --inline-suppr --error-exitcode=-1 --enable=all" + \
+                ("" if args.ext is None else " " + args.ext) + \
                 create_exclude_defines_argument(args.xdef) + \
                 create_include_defines_argument(args.idef) + \
                 create_include_paths_argument(args.ip) + \
                 " --includes-file=" + args.idir + \
                 create_exclude_paths_argument(args.xp) + \
                 " --template=" + ('"##teamcity[buildProblem description=\'{file}:{line}: {severity}: {message}\']"' if args.ot == "tc" else args.ot) + \
-                " --suppressions-list=" + args.s + \
-                ("" if args.cc is False else " --check-config")
+                " --suppressions-list=" + args.s
 
     # run the process and redirect both stdout and stderr for further processing if needed
     if args.ot == "tc":
