@@ -63,7 +63,7 @@ def main():
         else:
             args.ot = "vs"
 
-    arguments = " --inline-suppr --error-exitcode=-1" + \
+    arguments = " --inline-suppr --error-exitcode=-1 --inconclusive --force" + \
                 " --enable=" + args.ac + \
                 ("" if args.ext is None else " " + args.ext) + \
                 create_exclude_defines_argument(args.xdef) + \
