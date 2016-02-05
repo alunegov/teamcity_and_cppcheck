@@ -15,9 +15,6 @@ def create_argument(arg_name, file_handle):
         return " " + arg_name + line.strip('\n')
     return "".join([handler(x) for x in file_handle.readlines()])
 
-def create_include_directories_argument(file_handle):
-    return create_argument("-I", file_handle)
-
 def create_exclude_paths_argument(file_handle):
     return create_argument("-i", file_handle)
 
@@ -71,10 +68,10 @@ def main():
                 create_exclude_defines_argument(args.xdef) + \
                 create_include_defines_argument(args.idef) + \
                 create_include_paths_argument(args.ip) + \
-                create_include_directories_argument(args.idir) + \
+                " --includes-file=" + args.idir + \
                 create_exclude_paths_argument(args.xp) + \
                 " --template=" + ('"##teamcity[buildProblem description=\'{file}:{line}: {severity}: {message}\']"' if args.ot == "tc" else args.ot) + \
-                " --suppressions " + args.s + \
+                " --suppressions-list=" + args.s + \
                 ("" if args.cc is False else " --check-config")
 
     # run the process and redirect both stdout and stderr for further processing if needed
