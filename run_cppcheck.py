@@ -5,9 +5,9 @@ import subprocess
 import re
 
 def get_cppcheck_path():
-    if os.environ.get("ProgramFiles(x86)") is not None:
-        return os.path.join(os.environ["ProgramFiles(x86)"], "cppcheck", "cppcheck.exe")
-    else:
+    #if os.environ.get("ProgramFiles(x86)") is not None:
+    #    return os.path.join(os.environ["ProgramFiles(x86)"], "cppcheck", "cppcheck.exe")
+    #else:
         return os.path.join(os.environ["ProgramFiles"], "cppcheck", "cppcheck.exe")
 
 def create_argument(arg_name, file_handle):
