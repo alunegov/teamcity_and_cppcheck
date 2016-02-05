@@ -42,6 +42,7 @@ def handle_output_line(line):
 
 def main():
     parser = argparse.ArgumentParser(description="Run cppcheck")
+    parser.add_argument("--ac", type=str, help="Additional checks (default all)", default="all")
     parser.add_argument("--idir", type=file, help="Path of file with all include directories", default="include_directories.txt")
     parser.add_argument("--ip", type=file, help="Path of file with directories to analyze", default="include_paths.txt")
     parser.add_argument("--idef", type=file, help="Path of file with included definitions", default="include_defines.txt")
@@ -62,7 +63,8 @@ def main():
         else:
             args.ot = "vs"
 
-    arguments = " --inline-suppr --error-exitcode=-1 --enable=all" + \
+    arguments = " --inline-suppr --error-exitcode=-1" + \
+                " --enable=" + args.ac + \
                 ("" if args.ext is None else " " + args.ext) + \
                 create_exclude_defines_argument(args.xdef) + \
                 create_include_defines_argument(args.idef) + \
