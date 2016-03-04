@@ -71,7 +71,7 @@ def main():
                 create_include_paths_argument(args.ip) + \
                 " --includes-file=" + args.idir + \
                 create_exclude_paths_argument(args.xp) + \
-                " --template=" + ('"##teamcity[buildProblem description=\'{file}:{line}: {severity}: {message}\']"' if args.ot == "tc" else args.ot) + \
+                " --template=" + ('"##teamcity[buildProblem description=\'{file}:{line}: {severity} ({id}): {message}\']"' if args.ot == "tc" else args.ot) + \
                 " --suppressions-list=" + args.s
 
     # run the process and redirect both stdout and stderr for further processing if needed
